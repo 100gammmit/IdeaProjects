@@ -1,17 +1,16 @@
 package com.spdrtr.nklcb.controller;
 
-import com.spdrtr.nklcb.service.Crawling;
-import com.spdrtr.nklcb.service.SaveCategory;
+import com.spdrtr.nklcb.service.SaveArticle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class ArticleController {
-    private Crawling cr;
+    private SaveArticle cr;
 
     @Autowired
-    public ArticleController(Crawling cr) {
+    public ArticleController(SaveArticle cr) {
         this.cr = cr;
     }
     @GetMapping("/")
