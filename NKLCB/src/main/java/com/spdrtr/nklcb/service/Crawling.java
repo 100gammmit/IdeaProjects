@@ -53,6 +53,9 @@ public class Crawling {
         return element;
     }
 
+    /**
+     * 로그인 진행 함수
+     */
     public static void logIn() throws InterruptedException {
         findElement("signUpButton").click();
 
