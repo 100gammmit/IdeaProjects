@@ -31,10 +31,17 @@ public class SaveCategory {
         Thread.sleep(5000);
         try {
             findElement("JobGroup_JobGroup__H1m1m").click();
-            final int Big_category_count = findElements("JobGroupItem_JobGroupItem__xXzAi").size();
             List<WebElement> Big_categories = findElements("JobGroupItem_JobGroupItem__xXzAi");
-            for(int i=0; i< Big_category_count; i++){
-                WebElement Big_category = Big_categories.get(i);
+
+            for(int i=0; i< Big_categories.size(); i++){
+                WebElement Big_category = findElements("JobGroupItem_JobGroupItem__xXzAi").get(i);
+
+                if(i >= 8) {
+                    scrollTo(Big_category);
+                    Thread.sleep(500);
+                    scrollTop();
+                }
+
                 category_depth1 = Big_category.getText();
                 System.out.println("상위카테고리:" + category_depth1);
                 Big_category.click();
@@ -48,6 +55,7 @@ public class SaveCategory {
                 }
 
                 findElement("JobGroup_JobGroup__H1m1m").click();
+
                 System.out.println("-------------------------------");
             }
         } catch (Exception o) {
