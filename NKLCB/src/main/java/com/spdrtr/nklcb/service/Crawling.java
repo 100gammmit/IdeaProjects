@@ -1,9 +1,11 @@
 package com.spdrtr.nklcb.service;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +23,7 @@ public class Crawling {
     /**
      * class 코드 서칭
      * @param elmName
-     * @return class타입 인자를 받으면 그에 대한 코드를 모두 받아서 리스트로 반환
+     * @return class타입 인자를 받으면 그에 대한 getText()를 모두 받아서 리스트로 반환
      */
     public static List<String> getData(String elmName) {
         List<String> list = new ArrayList<>();
@@ -34,9 +36,9 @@ public class Crawling {
     }
 
     /**
-     * 버튼 서칭
+     * findElement
      * @param elmName
-     * @return 버튼 class명을 받아서 WebElement로 반환
+     * @return WebDriver.Element 수행 함수
      */
     public static WebElement findElement(String elmName) {
         WebElement element = driver.findElement(By.className(elmName));
@@ -44,9 +46,9 @@ public class Crawling {
     }
 
     /**
-     * 다수의 버튼 서칭
+     * findElements
      * @param elmName
-     * @return 버튼 class명을 받앗 WebElement 리스트로 반환
+     * @return WebDriver.Elements 수행 함수
      */
     public static List<WebElement> findElements(String elmName) {
         List<WebElement> element = driver.findElements(By.className(elmName));
@@ -66,4 +68,11 @@ public class Crawling {
         findElement("css-c61xw1").click();
     }
 
+    public static void scrollTo(WebElement scrollElm){
+        ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView()", scrollElm);
+    }
+
+    public static void scrollTop(){
+        ((JavascriptExecutor)driver).executeScript("window.scrollTo(0, 0)");
+    }
 }
