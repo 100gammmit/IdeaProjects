@@ -1,21 +1,23 @@
 package com.spdrtr.nklcb.controller;
 
+import com.spdrtr.nklcb.service.ArticleService;
 import com.spdrtr.nklcb.service.SaveArticle;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RequiredArgsConstructor
+@RequestMapping("/articles")
+@RestController
 public class ArticleController {
-    private SaveArticle cr;
+    private final SaveArticle saveArticle;
+    private final ArticleService articleService;
 
-    @Autowired
-    public ArticleController(SaveArticle cr) {
-        this.cr = cr;
-    }
     @GetMapping("/")
     public String CrawlAndSave() throws InterruptedException {
-        cr.saveArticle();
+        saveArticle.saveArticle();
         return "index";
     }
+
 }
