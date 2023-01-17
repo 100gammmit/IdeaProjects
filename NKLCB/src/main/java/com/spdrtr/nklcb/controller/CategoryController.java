@@ -1,21 +1,22 @@
 package com.spdrtr.nklcb.controller;
 
-import com.spdrtr.nklcb.service.SaveCategory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import com.spdrtr.nklcb.service.CategoryService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RequiredArgsConstructor
+@RequestMapping("/category")
+@RestController
 public class CategoryController {
-    private SaveCategory sc;
+    private CategoryService sc;
 
-    @Autowired
-    public CategoryController(SaveCategory sc) {
-        this.sc = sc;
-    }
-    @GetMapping ("/cate")
+    @GetMapping ("/")
     public String CrawlAndSave() throws InterruptedException {
         sc.saveCategory();
         return "index";
     }
+
+
 }
