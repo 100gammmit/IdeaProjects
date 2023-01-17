@@ -51,7 +51,7 @@ public class ArticleService {
                     .locate(locate.get(i))
                     .reward(reward.get(i))
                     .build();
-            articleRepository.save(dto.toEntity());
+            saveArticle(dto);
         }
     }
 
