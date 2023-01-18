@@ -1,5 +1,6 @@
 package com.spdrtr.nklcb.service;
 
+import com.beust.ah.A;
 import com.spdrtr.nklcb.domain.Article;
 import com.spdrtr.nklcb.dto.ArticleDto;
 import com.spdrtr.nklcb.repository.ArticleRepository;
@@ -60,5 +61,16 @@ public class ArticleService {
     }
     public Article findArticleById(long ArticleId) {
         return articleRepository.findById(ArticleId).get();
+    }
+
+    public List<Article> getAllArticles() {
+        List<Article> allArticle = new ArrayList<>();
+        long articleSize = articleRepository.findAll().size();
+
+        for(long i = 1; i <= articleSize; i++){
+            allArticle.add(findArticleById(i));
+        }
+
+        return allArticle;
     }
 }
