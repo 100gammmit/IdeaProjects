@@ -25,7 +25,7 @@ public class Crawling {
      * @param elmName
      * @return class타입 인자를 받으면 그에 대한 getText()를 모두 받아서 리스트로 반환
      */
-    public static List<String> getData(String elmName) {
+    public static List<String> getTextsByElement(String elmName) {
         List<String> list = new ArrayList<>();
 
         List<WebElement> elements = driver.findElements(By.className(elmName));
