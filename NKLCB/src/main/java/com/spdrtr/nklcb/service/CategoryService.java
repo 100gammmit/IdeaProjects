@@ -46,7 +46,7 @@ public class CategoryService {
                 Big_category.click();
 
                 findElement("JobCategory_JobCategory__btn__k3EFe").click();
-                categories_depth2 = getData("JobCategoryItem_JobCategoryItem__oUaZr");
+                categories_depth2 = getTextsByElement("JobCategoryItem_JobCategoryItem__oUaZr");
                 for(String category_depth2 : categories_depth2){
                     Category category = Category.of(category_depth1, category_depth2);
                     categoryRepository.save(category);
