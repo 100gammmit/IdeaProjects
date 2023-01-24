@@ -4,6 +4,8 @@ import com.beust.ah.A;
 import com.spdrtr.nklcb.domain.Article;
 import com.spdrtr.nklcb.dto.ArticleDto;
 import com.spdrtr.nklcb.repository.ArticleRepository;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,8 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static com.spdrtr.nklcb.service.Crawling.getData;
-import static com.spdrtr.nklcb.service.Crawling.process;
+import static com.spdrtr.nklcb.service.Crawling.*;
 
 @Service
 @Transactional
@@ -27,32 +28,37 @@ public class ArticleService {
     public void crawlArticle() throws InterruptedException {
         String url = "https://www.wanted.co.kr/wdlist?country=kr&job_sort=job.popularity_order&years=-1&locations=all";
         process(url);
-        List<String> title = new ArrayList<>();
-        List<String> enterprise = new ArrayList<>();
-        List<String> locate = new ArrayList<>();
-        List<String> reward = new ArrayList<>();
-        try {
-            title = getData("job-card-position");
-            enterprise = getData("job-card-company-name");
-            locate = getData("job-card-company-location");
-            reward = getData("reward");
-        } catch (Exception o) {
-        }
+        List<WebElement> articles = findElements("Card_className__u5rsb");
+        String title, enterprise, locate, image_url, official_url;
+        int reward;
 //        driver.quit();
 
-        for (int i = 0; i < title.size(); i++) {
-            System.out.println(i + 1);
-            System.out.println("title:" + title.get(i));
-            System.out.println("enterprise:" + enterprise.get(i));
-            System.out.println("locate:" + locate.get(i));
-            System.out.println("reward:" + reward.get(i) + "\n");
+        for (WebElement article : articles) {
+            article.getAttribute("style");
+            title = article.findElement(By.className("job-card-position")).getText();
+            enterprise = article.findElement(By.className("job-card-company-name")).getText();
+            locate = article.findElement(By.className("job-card-company-location")).getText();
+            reward = Integer.parseInt(article.findElement(By.className("reward")).getText().replaceAll("[^0-9]", ""));
+            image_url = article.findElement(By.cssSelector("a > header")).getAttribute("style");
+            image_url = image_url.substring(image_url.indexOf("(")+2, image_url.indexOf(")")-1);
+            official_url = article.findElement(By.cssSelector("a")).getAttribute("href");
+
             ArticleDto dto = ArticleDto.builder()
-                    .title(title.get(i))
-                    .enterprise(enterprise.get(i))
-                    .locate(locate.get(i))
-                    .reward(reward.get(i))
+                    .title(title)
+                    .enterprise(enterprise)
+                    .locate(locate)
+                    .reward(reward)
+                    .image_url(image_url)
+                    .official_url(official_url)
                     .build();
             saveArticle(dto);
+
+            System.out.println("title:" + title +
+                    "\nenterprise:" + enterprise +
+                    "\nlocate:" + locate +
+                    "\nreward:" + reward +
+                    "\nimage_url:" + image_url +
+                    "\nofficial_url:" + official_url);
         }
     }
 
