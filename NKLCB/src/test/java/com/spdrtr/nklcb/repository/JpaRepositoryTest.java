@@ -39,7 +39,7 @@ class JpaRepositoryTest {
                 .title("백엔드")
                 .enterprise("네이버")
                 .locate("경기.판교")
-                .reward("100만원")
+                .reward(100)
                 .build();
         articleRepository.save(articleDto.toEntity());
 
