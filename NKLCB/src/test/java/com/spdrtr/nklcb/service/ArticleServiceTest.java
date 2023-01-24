@@ -26,7 +26,7 @@ class ArticleServiceTest {
                 .title("제목")
                 .enterprise("기업")
                 .locate("위치")
-                .reward("채용보상금")
+                .reward(100)
                 .build();
         cr.saveArticle(dto);
 
