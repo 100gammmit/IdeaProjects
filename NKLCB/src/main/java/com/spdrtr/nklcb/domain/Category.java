@@ -22,9 +22,8 @@ public class Category {
     @Setter @Column(nullable = false, length = 20) private String category_depth1;
     @Setter @Column(length = 50) private String category_depth2;
 
-    @ToString.Exclude
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
-    private final List<ArticleCategoryMapping> articleCategoryMappings = new ArrayList<>();
+    private List<Article> articles = new ArrayList<>();
 
     protected Category(){}
 
