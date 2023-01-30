@@ -31,9 +31,8 @@ public class Article {
     @Setter @Column(nullable = false, length = 20) private String locate;
     @Setter @Column(nullable = false, length = 20) private int reward;
 
-    @ToString.Exclude
-    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
-    private final List<ArticleCategoryMapping> articleCategoryMappings = new ArrayList<>();
+
+    @ManyToOne @JoinColumn(name = "category_id") private Category category;
 
     @Setter @Column(length = 255) private String image_url;
     @Setter @Column(length = 255) private String official_url;
@@ -45,12 +44,13 @@ public class Article {
     protected Article() {}
 
     @Builder
-    public Article(String title, String enterprise, String locate, int reward, String image_url, String official_url){
+    public Article(String title, String enterprise, String locate, int reward, String image_url, String official_url, Category category){
         this.title = title;
         this.enterprise = enterprise;
         this.locate = locate;
         this.reward = reward;
         this.image_url = image_url;
         this.official_url = official_url;
+        this.category = category;
     }
 }
