@@ -17,11 +17,12 @@ import java.util.List;
 })
 @Entity
 public class Category {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private long id;
 
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private long id;
     @Setter @Column(nullable = false, length = 20) private String category_depth1;
     @Setter @Column(length = 50) private String category_depth2;
 
+    @Setter
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<Article> articles = new ArrayList<>();
 
@@ -37,4 +38,7 @@ public class Category {
     }
 
 
+    public void addArticle(Article article){
+        this.articles.add(article);
+    }
 }
