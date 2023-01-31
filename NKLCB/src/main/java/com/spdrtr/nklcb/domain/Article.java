@@ -31,7 +31,6 @@ public class Article {
     @Setter @Column(nullable = false, length = 20) private String locate;
     @Setter @Column(nullable = false, length = 20) private int reward;
 
-
     @ManyToOne @JoinColumn(name = "category_id") private Category category;
 
     @Setter @Column(length = 255) private String image_url;
