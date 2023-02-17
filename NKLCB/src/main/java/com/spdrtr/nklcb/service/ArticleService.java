@@ -46,6 +46,8 @@ public class ArticleService {
         List<WebElement> Big_categories = findElements("JobGroupItem_JobGroupItem__xXzAi");
         WebElement Big_category = Big_categories.get(0);
         category_depth1 = Big_category.getText();
+
+        //대분류 카테고리 버튼 클릭
         Big_category.click();
 
         findElement("JobCategory_JobCategory__btn__k3EFe").click();
