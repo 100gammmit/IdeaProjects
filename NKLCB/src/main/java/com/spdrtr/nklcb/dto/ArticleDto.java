@@ -9,14 +9,15 @@ import java.io.Serializable;
 /**
  * A DTO for the {@link com.spdrtr.nklcb.domain.Article} entity
  */
-public record ArticleDto(long id, String title, String condition, String enterprise, String deadline,
+public record ArticleDto(long id, String original_id, String title, String condition, String enterprise, String deadline,
                          String locate, int reward, String image_url,
-                         String official_url, Category category) implements Serializable {
+                         String official_url) implements Serializable {
     @Builder
-    public ArticleDto(long id, String title, String condition, String enterprise, String deadline,
+    public ArticleDto(long id, String original_id, String title, String condition, String enterprise, String deadline,
                       String locate, int reward, String image_url,
-                      String official_url, Category category){
+                      String official_url){
         this.id = id;
+        this.original_id = original_id;
         this.title = title;
         this.condition = condition;
         this.enterprise = enterprise;
@@ -25,18 +26,17 @@ public record ArticleDto(long id, String title, String condition, String enterpr
         this.reward = reward;
         this.image_url = image_url;
         this.official_url = official_url;
-        this.category = category;
     }
 
     public Article toEntity(){
         Article article = Article.builder()
+                .original_id(original_id)
                 .title(title)
                 .enterprise(enterprise)
                 .locate(locate)
                 .reward(reward)
                 .image_url(image_url)
                 .official_url(official_url)
-                .category(category)
                 .build();
         return article;
     }

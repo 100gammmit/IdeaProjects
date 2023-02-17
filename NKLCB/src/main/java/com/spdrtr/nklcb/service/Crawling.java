@@ -14,7 +14,7 @@ public class Crawling {
     public static WebDriver driver;
 
     public static void process(String url) throws InterruptedException {
-        System.setProperty("webdriver.chrome.driver", "/Users/minha/util/chromedriver");
+        System.setProperty("webdriver.chrome.driver", "/Users/minha/util/chromedriver");    // Window 운영체제에선 경로 끝에 .exe 붙이기
         driver = new ChromeDriver();
         driver.get(url);    //브라우저에서 url로 이동한다.
         Thread.sleep(3000); //브라우저 로딩될때까지 잠시 기다린다.
@@ -38,7 +38,7 @@ public class Crawling {
     /**
      * findElement
      * @param elmName
-     * @return WebDriver.Element 수행 함수
+     * @return WebDriver.Element(By.className) 수행 함수
      */
     public static WebElement findElement(String elmName) {
         WebElement element = driver.findElement(By.className(elmName));
@@ -71,7 +71,9 @@ public class Crawling {
     public static void scrollTo(WebElement scrollElm){
         ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView()", scrollElm);
     }
-
+    public static void scrollBottom() {
+        ((JavascriptExecutor)driver).executeScript("window.scrollTo(0, document.body.scrollHeight)");
+    }
     public static void scrollTop(){
         ((JavascriptExecutor)driver).executeScript("window.scrollTo(0, 0)");
     }

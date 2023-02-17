@@ -24,17 +24,19 @@ import java.util.Set;
 @Entity
 public class Article {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private long id;
-    @Setter @Column(nullable = false, length = 50) private String title;
-    @Setter @Column private String condition;
-    @Setter @Column(nullable = false, length = 50) private String enterprise;
-    @Setter @Column(length = 50) private String deadline;
-    @Setter @Column(nullable = false, length = 20) private String locate;
-    @Setter @Column(nullable = false, length = 20) private int reward;
+    @Column(nullable = false) private String original_id;
+    @Column(nullable = false) private String title;
+    @Column private String condition;
+    @Column(nullable = false) private String enterprise;
+    @Column(length = 50) private String deadline;
+    @Column(nullable = false) private String locate;
+    @Column(nullable = false) private int reward;
 
-    @ManyToOne @JoinColumn(name = "category_id") private Category category;
+    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
+    private List<ArticleCategoryMapping> articleCategoryMappings = new ArrayList<>();
 
-    @Setter @Column(length = 255) private String image_url;
-    @Setter @Column(length = 255) private String official_url;
+    @Column(length = 255) private String image_url;
+    @Column(length = 255) private String official_url;
 
     @ToString.Exclude
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
@@ -43,13 +45,18 @@ public class Article {
     protected Article() {}
 
     @Builder
-    public Article(String title, String enterprise, String locate, int reward, String image_url, String official_url, Category category){
+    public Article(String original_id, String title, String enterprise, String locate, int reward, String image_url, String official_url){
+        this.original_id = original_id;
         this.title = title;
         this.enterprise = enterprise;
         this.locate = locate;
         this.reward = reward;
         this.image_url = image_url;
         this.official_url = official_url;
-        this.category = category;
+    }
+
+    public void addMappingWithCategory(ArticleCategoryMapping articleCategoryMapping){
+        articleCategoryMapping.setArticle(this);
+        this.articleCategoryMappings.add(articleCategoryMapping);
     }
 }

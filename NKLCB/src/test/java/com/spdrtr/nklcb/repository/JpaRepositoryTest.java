@@ -8,9 +8,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -45,6 +42,33 @@ class JpaRepositoryTest {
 
         //then
         assertThat(articleRepository.count()).isEqualTo(previousCount+1);
+    }
+
+    @Test
+    @DisplayName("게시글과 카테고리가 정상적으로 매핑되어 DB에 저장되는지 확인")
+    void ArticleCategoryMappingTest() {
+        //given
+        long previousCount = articleCategoryMappingRepository.count();
+        //when
+        Article article = Article.builder()
+                .title("백엔드")
+                .enterprise("네이버")
+                .locate("경기.판교")
+                .reward(100)
+                .build();
+        articleRepository.save(article);
+        Category category = Category.of("개발", "소프트");
+        categoryRepository.save(category);
+
+        ArticleCategoryMapping articleCategoryMapping = new ArticleCategoryMapping();
+        article.addMappingWithCategory(articleCategoryMapping);
+        articleCategoryMapping.takeCategory(category);
+        articleCategoryMappingRepository.save(articleCategoryMapping);
+
+        //then
+        assertThat(articleCategoryMappingRepository.count()).isEqualTo(previousCount+1);
+        assertThat(articleRepository.findById(1L).get().getArticleCategoryMappings()).isNotNull();
+        assertThat(categoryRepository.findById(1L).get().getArticleCategoryMappings()).isNotNull();
     }
 
 

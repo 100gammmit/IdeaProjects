@@ -1,9 +1,6 @@
 package com.spdrtr.nklcb.domain;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -22,10 +19,8 @@ public class Category {
     @Setter @Column(nullable = false, length = 20) private String category_depth1;
     @Setter @Column(length = 50) private String category_depth2;
 
-    @Setter
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
-    private List<Article> articles = new ArrayList<>();
-
+    private List<ArticleCategoryMapping> articleCategoryMappings = new ArrayList<>();
     protected Category(){}
 
     private Category(String category_depth1, String category_depth2){
@@ -35,10 +30,5 @@ public class Category {
 
     public static Category of(String category_depth1, String category_depth2){
         return new Category(category_depth1, category_depth2);
-    }
-
-
-    public void addArticle(Article article){
-        this.articles.add(article);
     }
 }
