@@ -24,7 +24,7 @@ import java.util.Set;
 @Entity
 public class Article {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private long id;
-    @Column(nullable = false) private String original_id;
+    @Column(nullable = false) private String originalId;
     @Column(nullable = false) private String title;
     @Column private String condition;
     @Column(nullable = false) private String enterprise;
@@ -45,8 +45,8 @@ public class Article {
     protected Article() {}
 
     @Builder
-    public Article(String original_id, String title, String enterprise, String locate, int reward, String image_url, String official_url){
-        this.original_id = original_id;
+    public Article(String originalId, String title, String enterprise, String locate, int reward, String image_url, String official_url){
+        this.originalId = originalId;
         this.title = title;
         this.enterprise = enterprise;
         this.locate = locate;
