@@ -36,6 +36,7 @@ class JpaRepositoryTest {
                 .title("백엔드")
                 .enterprise("네이버")
                 .locate("경기.판교")
+                .originalId("12")
                 .reward(100)
                 .build();
         articleRepository.save(articleDto.toEntity());
@@ -54,6 +55,7 @@ class JpaRepositoryTest {
                 .title("백엔드")
                 .enterprise("네이버")
                 .locate("경기.판교")
+                .originalId("12")
                 .reward(100)
                 .build();
         articleRepository.save(article);
@@ -71,5 +73,20 @@ class JpaRepositoryTest {
         assertThat(categoryRepository.findById(1L).get().getArticleCategoryMappings()).isNotNull();
     }
 
+    @Test
+    @DisplayName("findbyOriginalId 테스트")
+    void findArticle() {
+        ArticleDto dto = ArticleDto.builder()
+                .title("제목")
+                .enterprise("기업")
+                .originalId("12")
+                .locate("위치")
+                .reward(100)
+                .build();
+        articleRepository.save(dto.toEntity());
+
+        assertThat(articleRepository.findByOriginalId("12").get().getTitle()).isEqualTo("제목");
+        assertThat(articleRepository.findByOriginalId("13")).isEmpty();
+    }
 
 }
