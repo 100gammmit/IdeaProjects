@@ -26,9 +26,7 @@ public class Article {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private long id;
     @Column(nullable = false) private String originalId;
     @Column(nullable = false) private String title;
-    @Column private String condition;
     @Column(nullable = false) private String enterprise;
-    @Column(length = 50) private String deadline;
     @Column(nullable = false) private String locate;
     @Column(nullable = false) private int reward;
 
