@@ -4,6 +4,7 @@ import com.spdrtr.nklcb.domain.Article;
 import com.spdrtr.nklcb.dto.ArticleDto;
 import com.spdrtr.nklcb.repository.ArticleRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -20,17 +21,23 @@ class ArticleServiceTest {
     @Autowired
     private ArticleService cr;
 
+    @Autowired
+    private ArticleRepository articleRepository;
+
     @Test
-    void findArticle() {
+    @DisplayName("ArticleRepository save, findbyid 테스트")
+    void saveAndFindArticle() {
         ArticleDto dto = ArticleDto.builder()
                 .title("제목")
                 .enterprise("기업")
                 .locate("위치")
                 .reward(100)
                 .build();
-        cr.saveArticle(dto);
+        articleRepository.save(dto.toEntity());
 
-        assertThat(cr.findArticleById(1L).getTitle()).isEqualTo("제목");
+        assertThat(articleRepository.findById(1L).get().getTitle()).isEqualTo("제목");
     }
+
+
 
 }
