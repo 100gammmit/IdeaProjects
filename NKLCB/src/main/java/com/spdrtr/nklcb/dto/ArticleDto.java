@@ -9,19 +9,17 @@ import java.io.Serializable;
 /**
  * A DTO for the {@link com.spdrtr.nklcb.domain.Article} entity
  */
-public record ArticleDto(long id, String originalId, String title, String condition, String enterprise, String deadline,
+public record ArticleDto(long id, String originalId, String title, String enterprise,
                          String locate, int reward, String image_url,
                          String official_url) implements Serializable {
     @Builder
-    public ArticleDto(long id, String originalId, String title, String condition, String enterprise, String deadline,
+    public ArticleDto(long id, String originalId, String title, String enterprise,
                       String locate, int reward, String image_url,
                       String official_url){
         this.id = id;
         this.originalId = originalId;
         this.title = title;
-        this.condition = condition;
         this.enterprise = enterprise;
-        this.deadline = deadline;
         this.locate = locate;
         this.reward = reward;
         this.image_url = image_url;
