@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static com.spdrtr.nklcb.service.Crawling.*;
 
@@ -73,8 +74,8 @@ public class ArticleService {
 
             for (WebElement article : articles) {
                 try{
-                    WebElement meta = article.findElement(By.cssSelector("a"));
-                    original_id = meta.getAttribute("data-position-id");    // TODO: original_id별로 구분해서 중복시 article에 추가 안하는 부분 구현해야 함
+                    WebElement meta = article.findElement(By.cssSelector("a")); // job_card의 id, position, 상세 페이지 링크 등 메타 정보 수용된 코드부분
+                    original_id = meta.getAttribute("data-position-id");
                     title = article.findElement(By.className("job-card-position")).getText();
                     enterprise = article.findElement(By.className("job-card-company-name")).getText();
                     locate = article.findElement(By.className("job-card-company-location")).getText();
@@ -86,8 +87,14 @@ public class ArticleService {
                     continue;
                 }
 
-                ArticleDto articleDto = ArticleDto.builder()
-                        .original_id(original_id)
+                ArticleCategoryMapping articleCategoryMapping = new ArticleCategoryMapping();
+
+                Optional<Article> Pre_article = articleRepository.findByOriginalId(original_id);
+                // 이미 저장되어있는 article이 있는 경우 category만 추가하고 새로운 도메인을 저장하면 안됨
+                // 이를 필터링하는 조건문
+                if(Pre_article.isEmpty()) {
+                    ArticleDto articleDto = ArticleDto.builder()
+                        .originalId(original_id)
                         .title(title)
                         .enterprise(enterprise)
                         .locate(locate)
@@ -96,19 +103,24 @@ public class ArticleService {
                         .official_url(official_url)
                         .build();
 
-                Article articleEntity = articleDto.toEntity();
-                articleRepository.save(articleEntity);
+                    Article articleEntity = articleDto.toEntity();
+                    articleRepository.save(articleEntity);
+                    articleEntity.addMappingWithCategory(articleCategoryMapping);
 
-                System.out.println("\noriginal_id:" + original_id +
-                        "\ntitle:" + title +
-                        "\nenterprise:" + enterprise +
-                        "\nlocate:" + locate +
-                        "\nreward:" + reward +
-                        "\nimage_url:" + image_url +
-                        "\nofficial_url:" + official_url);
+                    System.out.println("\noriginal_id:" + original_id +
+                            "\ntitle:" + title +
+                            "\nenterprise:" + enterprise +
+                            "\nlocate:" + locate +
+                            "\nreward:" + reward +
+                            "\nimage_url:" + image_url +
+                            "\nofficial_url:" + official_url);
+                }
+                else {
+                    Pre_article.get().addMappingWithCategory(articleCategoryMapping);
 
-                ArticleCategoryMapping articleCategoryMapping = new ArticleCategoryMapping();
-                articleEntity.addMappingWithCategory(articleCategoryMapping);
+                    System.out.println("이미 존재하는 article \nPre_article.get().getArticleCategoryMappings() = " + Pre_article.get().getArticleCategoryMappings());
+                }
+
                 articleCategoryMapping.takeCategory(categoryEntity);
                 articleCategoryMappingRepository.save(articleCategoryMapping);
             }
