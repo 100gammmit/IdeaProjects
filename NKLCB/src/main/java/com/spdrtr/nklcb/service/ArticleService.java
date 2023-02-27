@@ -142,18 +142,13 @@ public class ArticleService {
         return allArticle;
     }
 
-
     /**
-     * 카테고리id별 존재하는 모든 article 반환
-     * @param categoryId
+     * List<Article>타입을 파라미터로 받고
+     * Controller에서 JSON타입으로 데이터 전달을 하기 위해 List<Map<String, Object>>타입으로 반환
+     * @param allArticle
      * @return Controller에서 JSON타입으로 데이터 전달을 하기 위해 List<Map<String, Object>>타입으로 반환
      */
-    public List<Map<String, Object>> getAllArticlesByCategoryId(Long categoryId){
-        List<Article> allArticle = new ArrayList<>();
-        for(ArticleCategoryMapping articleCategoryMapping : articleCategoryMappingRepository.findAllByCategoryId(categoryId)){
-            allArticle.add(articleCategoryMapping.getArticle());
-        }
-
+    public List<Map<String, Object>> getAllArticleDBByArticleList(List<Article> allArticle) {
         List<Map<String, Object>> allArticlesDB = new ArrayList<>();
         for(int i=0; i < allArticle.size(); i++){
             Map<String, Object> articleDB = new HashMap<>();
@@ -168,5 +163,25 @@ public class ArticleService {
             allArticlesDB.add(articleDB);
         }
         return allArticlesDB;
+    }
+
+    public List<Map<String, Object>> getArticlesByCategoryId(Long categoryId) {
+        List<Article> allArticle = new ArrayList<>();
+        for(ArticleCategoryMapping articleCategoryMapping : articleCategoryMappingRepository.findAllByCategoryId(categoryId)){
+            allArticle.add(articleCategoryMapping.getArticle());
+        }
+        return getAllArticleDBByArticleList(allArticle);
+    }
+
+    public List<Map<String, Object>> searchArticlesByTitle(String keyword) {
+        List<Article> allArticle = articleRepository.findAllByTitleContaining(keyword);
+
+        return getAllArticleDBByArticleList(allArticle);
+    }
+
+    public List<Map<String, Object>> searchArticlesByEnterprise(String keyword) {
+        List<Article> allArticle = articleRepository.findAllByEnterpriseContaining(keyword);
+
+        return getAllArticleDBByArticleList(allArticle);
     }
 }
