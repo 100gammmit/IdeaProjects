@@ -13,9 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static com.spdrtr.nklcb.service.Crawling.*;
 
@@ -133,14 +131,6 @@ public class ArticleService {
         return articleRepository.findById(article_id).get();
     }
 
-    public List<Article> findAllArticleByCategoryId(long category_id){
-        List<Article> articles = new ArrayList<>();
-        for(ArticleCategoryMapping articleCategoryMapping : articleCategoryMappingRepository.findAllByCategoryId(category_id)){
-            articles.add(articleCategoryMapping.getArticle());
-        }
-        return articles;
-    }
-
     public List<Article> getAllArticles() {
         List<Article> allArticle = new ArrayList<>();
         long articleSize = articleRepository.findAll().size();
@@ -150,5 +140,33 @@ public class ArticleService {
         }
 
         return allArticle;
+    }
+
+
+    /**
+     * 카테고리id별 존재하는 모든 article 반환
+     * @param categoryId
+     * @return Controller에서 JSON타입으로 데이터 전달을 하기 위해 List<Map<String, Object>>타입으로 반환
+     */
+    public List<Map<String, Object>> getAllArticlesByCategoryId(Long categoryId){
+        List<Article> allArticle = new ArrayList<>();
+        for(ArticleCategoryMapping articleCategoryMapping : articleCategoryMappingRepository.findAllByCategoryId(categoryId)){
+            allArticle.add(articleCategoryMapping.getArticle());
+        }
+
+        List<Map<String, Object>> allArticlesDB = new ArrayList<>();
+        for(int i=0; i < allArticle.size(); i++){
+            Map<String, Object> articleDB = new HashMap<>();
+
+            articleDB.put("title", allArticle.get(i).getTitle());
+            articleDB.put("enterprise", allArticle.get(i).getEnterprise());
+            articleDB.put("locate", allArticle.get(i).getLocate());
+            articleDB.put("reward", allArticle.get(i).getReward());
+            articleDB.put("image_uri", allArticle.get(i).getImage_url());
+            articleDB.put("official_uri", allArticle.get(i).getOfficial_url());
+
+            allArticlesDB.add(articleDB);
+        }
+        return allArticlesDB;
     }
 }
