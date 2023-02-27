@@ -143,10 +143,10 @@ public class ArticleService {
     }
 
     /**
-     * List<Article>타입을 파라미터로 받고
-     * Controller에서 JSON타입으로 데이터 전달을 하기 위해 List<Map<String, Object>>타입으로 반환
+     * List타입을 파라미터로 받고
+     * Controller에서 JSON타입으로 데이터 전달을 하기 위해 타입 반환
      * @param allArticle
-     * @return Controller에서 JSON타입으로 데이터 전달을 하기 위해 List<Map<String, Object>>타입으로 반환
+     * @return {name : data}
      */
     public List<Map<String, Object>> getAllArticleDBByArticleList(List<Article> allArticle) {
         List<Map<String, Object>> allArticlesDB = new ArrayList<>();
