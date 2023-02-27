@@ -4,10 +4,7 @@ import com.spdrtr.nklcb.domain.Article;
 import com.spdrtr.nklcb.service.ArticleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
@@ -20,7 +17,21 @@ public class ArticleController {
 
     @GetMapping("/{category_id}")
     public List<Map<String, Object>> GetAllArticlesByCategoryId(@PathVariable Long category_id) {
-        return articleService.getAllArticlesByCategoryId(category_id);
+        return articleService.getArticlesByCategoryId(category_id);
+    }
+
+    @GetMapping("/search")
+    public List<Map<String, Object>> SearchArticles(
+            @RequestParam("type") String type,
+            @RequestParam("keyword") String keyword
+    ) {
+        switch (type){
+            case "title":
+                return articleService.searchArticlesByTitle(keyword);
+            case "enterprise":
+                return articleService.searchArticlesByEnterprise(keyword);
+        }
+        return null;
     }
 
     @GetMapping("/all")
@@ -42,4 +53,6 @@ public class ArticleController {
 
         return allArticlesDB;
     }
+
+
 }
