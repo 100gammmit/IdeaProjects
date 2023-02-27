@@ -165,6 +165,11 @@ public class ArticleService {
         return allArticlesDB;
     }
 
+    /**
+     * categoryId를 받아 해당하는 카테고리를 가진 모든 article을 JSON으로 반환
+     * @param categoryId
+     * @return {name : data}
+     */
     public List<Map<String, Object>> getArticlesByCategoryId(Long categoryId) {
         List<Article> allArticle = new ArrayList<>();
         for(ArticleCategoryMapping articleCategoryMapping : articleCategoryMappingRepository.findAllByCategoryId(categoryId)){
@@ -173,12 +178,22 @@ public class ArticleService {
         return getAllArticleDBByArticleList(allArticle);
     }
 
+    /**
+     * 제목타입 검색 결과를 JSON타입으로 반환
+     * @param keyword
+     * @return {name : data}
+     */
     public List<Map<String, Object>> searchArticlesByTitle(String keyword) {
         List<Article> allArticle = articleRepository.findAllByTitleContaining(keyword);
 
         return getAllArticleDBByArticleList(allArticle);
     }
 
+    /**
+     * 기업명타입 검색 결과를 JSON타입으로 반환
+     * @param keyword
+     * @return {name : data}
+     */
     public List<Map<String, Object>> searchArticlesByEnterprise(String keyword) {
         List<Article> allArticle = articleRepository.findAllByEnterpriseContaining(keyword);
 
