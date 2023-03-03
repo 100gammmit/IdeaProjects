@@ -15,12 +15,12 @@ public class ArticleController {
 
     private final ArticleService articleService;
 
-    @GetMapping("/{category_id}")
+    /*@GetMapping("/{category_id}")
     public List<Map<String, Object>> GetAllArticlesByCategoryId(@PathVariable Long category_id) {
         return articleService.getArticlesByCategoryId(category_id);
-    }
+    }*/
 
-    @GetMapping("/search")
+    /*@GetMapping("/search")
     public List<Map<String, Object>> SearchArticles(
             @RequestParam("type") String type,
             @RequestParam("keyword") String keyword
@@ -32,9 +32,28 @@ public class ArticleController {
                 return articleService.searchArticlesByEnterprise(keyword);
         }
         return null;
+    }*/
+
+    @GetMapping("/{category_id}")
+    public void GetAllArticlesByCategoryId(@PathVariable Long category_id, Model model) {
+        model.addAllAttributes(articleService.getArticlesByCategoryId(category_id));
     }
 
-    @GetMapping("/all")
+    @GetMapping("/search")
+    public void SearchArticles(
+            @RequestParam("type") String type,
+            @RequestParam("keyword") String keyword,
+            Model model
+    ) {
+        switch (type){
+            case "title":
+                model.addAllAttributes(articleService.searchArticlesByTitle(keyword));
+            case "enterprise":
+                model.addAllAttributes(articleService.searchArticlesByEnterprise(keyword));
+        }
+    }
+
+    /*@GetMapping("/all")
     public List<Map<String, Object>> GetAllArticles() {
         List<Article> allArticle = articleService.getAllArticles();
         List<Map<String, Object>> allArticlesDB = new ArrayList<>();
@@ -52,7 +71,7 @@ public class ArticleController {
         }
 
         return allArticlesDB;
-    }
+    }*/
 
 
 }
