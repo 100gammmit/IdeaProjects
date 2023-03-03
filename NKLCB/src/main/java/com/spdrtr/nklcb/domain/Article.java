@@ -28,7 +28,7 @@ public class Article {
     @Column(nullable = false) private String title;
     @Column(nullable = false) private String enterprise;
     @Column(nullable = false) private String locate;
-    @Column(nullable = false) private int reward;
+    @Column(nullable = false) private String reward;
 
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
     private List<ArticleCategoryMapping> articleCategoryMappings = new ArrayList<>();
@@ -43,7 +43,7 @@ public class Article {
     protected Article() {}
 
     @Builder
-    public Article(String originalId, String title, String enterprise, String locate, int reward, String image_url, String official_url){
+    public Article(String originalId, String title, String enterprise, String locate, String reward, String image_url, String official_url){
         this.originalId = originalId;
         this.title = title;
         this.enterprise = enterprise;
