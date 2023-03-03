@@ -38,8 +38,7 @@ public class ArticleService {
         logIn();
         Thread.sleep(5000);
 
-        String original_id, title, enterprise, locate, image_url, official_url, category_depth1, category_depth2;
-        int reward;
+        String original_id, title, enterprise, locate, reward, image_url, official_url, category_depth1, category_depth2;
 
         findElement("JobGroup_JobGroup__H1m1m").click();
         List<WebElement> Big_categories = findElements("JobGroupItem_JobGroupItem__xXzAi");
@@ -77,7 +76,7 @@ public class ArticleService {
                     title = article.findElement(By.className("job-card-position")).getText();
                     enterprise = article.findElement(By.className("job-card-company-name")).getText();
                     locate = article.findElement(By.className("job-card-company-location")).getText();
-                    reward = Integer.parseInt(article.findElement(By.className("reward")).getText().replaceAll("[^0-9]", ""));
+                    reward = article.findElement(By.className("reward")).getText();
                     image_url = article.findElement(By.cssSelector("a > header")).getAttribute("style");
                     image_url = image_url.substring(image_url.indexOf("(")+2, image_url.indexOf(")")-1);
                     official_url = meta.getAttribute("href");
