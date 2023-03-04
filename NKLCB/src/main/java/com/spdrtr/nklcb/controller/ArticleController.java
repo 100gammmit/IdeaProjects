@@ -53,25 +53,4 @@ public class ArticleController {
         }
     }
 
-    /*@GetMapping("/all")
-    public List<Map<String, Object>> GetAllArticles() {
-        List<Article> allArticle = articleService.getAllArticles();
-        List<Map<String, Object>> allArticlesDB = new ArrayList<>();
-        for(int i=0; i < allArticle.size(); i++){
-            Map<String, Object> articleDB = new HashMap<>();
-
-            articleDB.put("title", allArticle.get(i).getTitle());
-            articleDB.put("enterprise", allArticle.get(i).getEnterprise());
-            articleDB.put("locate", allArticle.get(i).getLocate());
-            articleDB.put("reward", allArticle.get(i).getReward());
-            articleDB.put("image_uri", allArticle.get(i).getImage_url());
-            articleDB.put("official_uri", allArticle.get(i).getOfficial_url());
-
-            allArticlesDB.add(articleDB);
-        }
-
-        return allArticlesDB;
-    }*/
-
-
 }
