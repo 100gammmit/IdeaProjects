@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body th:fragment="jobcard(title, reward, locate, enterprise, official_url, image_url)">
+  <div class="col">
+    <div class="card shadow-sm">
+      <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: image" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">이미지</text></svg>
+
+      <div class="card-body">
+        <p class="card-text"><a th:text="${title}" th:href="@{${official_url}}"/></p>
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="btn-group">
+            <button type="button" class="btn btn-sm btn-outline-secondary" th:text="${locate}">위치</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary" th:text="${reward}">보상</button>
+          </div>
+          <small class="text-muted" th:text="${enterprise}">기업</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
