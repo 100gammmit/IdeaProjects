@@ -3,14 +3,21 @@ package com.spdrtr.nklcb.controller;
 import com.spdrtr.nklcb.domain.Article;
 import com.spdrtr.nklcb.service.ArticleService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.*;
+import java.util.List;
 
 @RequiredArgsConstructor
 @RequestMapping("/articles")
-@RestController
+@Controller
 public class ArticleController {
 
     private final ArticleService articleService;
@@ -35,8 +42,12 @@ public class ArticleController {
     }*/
 
     @GetMapping("/{category_id}")
-    public void GetAllArticlesByCategoryId(@PathVariable Long category_id, Model model) {
-        model.addAllAttributes(articleService.getArticlesByCategoryId(category_id));
+    public String GetAllArticlesByCategoryId(@PathVariable Long category_id, Pageable pageable, ModelMap map) {
+        List<Article> articlePage = articleService.getArticlesByCategoryId(category_id, pageable);
+
+        map.addAttribute("articlePage", articlePage);
+
+        return "home";
     }
 
     @GetMapping("/search")
