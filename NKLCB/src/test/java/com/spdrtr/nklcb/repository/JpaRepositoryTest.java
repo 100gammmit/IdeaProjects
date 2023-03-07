@@ -37,7 +37,7 @@ class JpaRepositoryTest {
                 .enterprise("네이버")
                 .locate("경기.판교")
                 .originalId("12")
-                .reward(100)
+                .reward("100")
                 .build();
         articleRepository.save(articleDto.toEntity());
 
@@ -56,7 +56,7 @@ class JpaRepositoryTest {
                 .enterprise("네이버")
                 .locate("경기.판교")
                 .originalId("12")
-                .reward(100)
+                .reward("100")
                 .build();
         articleRepository.save(article);
         Category category = Category.of("개발", "소프트");
@@ -81,7 +81,7 @@ class JpaRepositoryTest {
                 .enterprise("기업")
                 .originalId("12")
                 .locate("위치")
-                .reward(100)
+                .reward("100")
                 .build();
         articleRepository.save(dto.toEntity());
 
