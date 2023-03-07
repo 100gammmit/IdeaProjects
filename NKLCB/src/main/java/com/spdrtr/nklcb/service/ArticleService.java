@@ -10,6 +10,9 @@ import com.spdrtr.nklcb.repository.CategoryRepository;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,7 +53,7 @@ public class ArticleService {
 
         findElement("JobCategory_JobCategory__btn__k3EFe").click();
 
-        for(int i=1; i <= 6; i++){
+        for(int i=1; i <= 3; i++){
             List<WebElement> Small_categories =  findElements("JobCategoryItem_JobCategoryItem__oUaZr");
             WebElement Small_category = Small_categories.get(i);
             category_depth2 = Small_category.getText();
@@ -169,12 +172,12 @@ public class ArticleService {
      * @param categoryId
      * @return {name : data}
      */
-    public List<Map<String, Object>> getArticlesByCategoryId(Long categoryId) {
+    public List<Article> getArticlesByCategoryId(Long categoryId, Pageable pageable) {
         List<Article> allArticle = new ArrayList<>();
         for(ArticleCategoryMapping articleCategoryMapping : articleCategoryMappingRepository.findAllByCategoryId(categoryId)){
             allArticle.add(articleCategoryMapping.getArticle());
         }
-        return getAllArticleDBByArticleList(allArticle);
+        return allArticle;
     }
 
     /**
