@@ -5,6 +5,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 
 import java.util.ArrayList;
@@ -15,7 +16,10 @@ public class Crawling {
 
     public static void process(String url) throws InterruptedException {
         System.setProperty("webdriver.chrome.driver", "/Users/minha/util/chromedriver");    // Window 운영체제에선 경로 끝에 .exe 붙이기
-        driver = new ChromeDriver();
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--remote-allow-origins=*");
+
+        driver = new ChromeDriver(options);
         driver.get(url);    //브라우저에서 url로 이동한다.
         Thread.sleep(3000); //브라우저 로딩될때까지 잠시 기다린다.
     }
