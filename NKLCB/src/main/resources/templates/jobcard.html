@@ -7,10 +7,13 @@
 <body th:fragment="jobcard(title, reward, locate, enterprise, official_url, image_url)">
   <div class="col">
     <div class="card shadow-sm">
-      <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: image" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">이미지</text></svg>
+      <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: image" preserveAspectRatio="xMidYMid slice" focusable="false">
+        <title>Placeholder</title>
+        <image width="100%" height="100%" th:href="@{${image_url}}" />
+      </svg>
 
       <div class="card-body">
-        <p class="card-text"><a th:text="${title}" th:href="@{${official_url}}"/></p>
+        <p class="card-text"><a th:text="${title}" th:href="@{${official_url}}" target="_blank"/></p>
         <div class="d-flex justify-content-between align-items-center">
           <div class="btn-group">
             <button type="button" class="btn btn-sm btn-outline-secondary" th:text="${locate}">위치</button>
