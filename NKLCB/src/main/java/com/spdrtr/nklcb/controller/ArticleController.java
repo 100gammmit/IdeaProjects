@@ -41,6 +41,10 @@ public class ArticleController {
         return null;
     }*/
 
+    @GetMapping("")
+    public String MainPage(ModelMap map) {
+        return "home";
+    }
     @GetMapping("/{category_id}")
     public String GetAllArticlesByCategoryId(@PathVariable Long category_id, Pageable pageable, ModelMap map) {
         List<Article> articlePage = articleService.getArticlesByCategoryId(category_id, pageable);
