@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public interface ArticleRepository extends JpaRepository<Article, Long> {
     Optional<Article> findByOriginalId(String original_id);
-    List<Article> findAllByTitleContaining(String keyword);
-    List<Article> findAllByEnterpriseContaining(String keyword);
-    Page<Article> findAllByArticleCategoryMappings(List<ArticleCategoryMapping> articleCategoryMappings, Pageable pageable);
+    Page<Article> findAllByTitleContaining(String keyword, Pageable pageable);
+    Page<Article> findAllByEnterpriseContaining(String keyword, Pageable pageable);
+//    Page<Article> findAllByArticleCategoryMappings(List<ArticleCategoryMapping> articleCategoryMappings, Pageable pageable);
 }
