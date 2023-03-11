@@ -10,6 +10,8 @@ import com.spdrtr.nklcb.repository.CategoryRepository;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -166,11 +168,11 @@ public class ArticleService {
     }
 
     /**
-     * categoryId를 받아 해당하는 카테고리를 가진 모든 article을 JSON으로 반환
+     * categoryId를 받아 해당하는 카테고리를 가진 모든 article을 반환
      * @param categoryId
      * @return {name : data}
      */
-    public List<Article> getArticlesByCategoryId(Long categoryId, Pageable pageable) {
+    public List<Article> getArticlesByCategoryId(Long categoryId) {
         List<Article> allArticle = new ArrayList<>();
         for(ArticleCategoryMapping articleCategoryMapping : articleCategoryMappingRepository.findAllByCategoryId(categoryId)){
             allArticle.add(articleCategoryMapping.getArticle());
@@ -179,24 +181,24 @@ public class ArticleService {
     }
 
     /**
-     * 제목타입 검색 결과를 JSON타입으로 반환
+     * 제목타입 검색 결과를 반환
      * @param keyword
      * @return {name : data}
      */
-    public List<Map<String, Object>> searchArticlesByTitle(String keyword) {
-        List<Article> allArticle = articleRepository.findAllByTitleContaining(keyword);
+    public Page<Article> searchArticlesByTitle(String keyword, Pageable pageable) {
+        Page<Article> allArticle = articleRepository.findAllByTitleContaining(keyword, pageable);
 
-        return getAllArticleDBByArticleList(allArticle);
+        return allArticle;
     }
 
     /**
-     * 기업명타입 검색 결과를 JSON타입으로 반환
+     * 기업명타입 검색 결과를 반환
      * @param keyword
      * @return {name : data}
      */
-    public List<Map<String, Object>> searchArticlesByEnterprise(String keyword) {
-        List<Article> allArticle = articleRepository.findAllByEnterpriseContaining(keyword);
+    public Page<Article> searchArticlesByEnterprise(String keyword, Pageable pageable) {
+        Page<Article> allArticle = articleRepository.findAllByEnterpriseContaining(keyword, pageable);
 
-        return getAllArticleDBByArticleList(allArticle);
+        return allArticle;
     }
 }
