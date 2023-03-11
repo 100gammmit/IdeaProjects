@@ -3,13 +3,11 @@ package com.spdrtr.nklcb.controller;
 import com.spdrtr.nklcb.domain.Article;
 import com.spdrtr.nklcb.service.ArticleService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -45,27 +43,53 @@ public class ArticleController {
     public String MainPage(ModelMap map) {
         return "home";
     }
-    @GetMapping("/{category_id}")
+
+    /*@GetMapping("/{category_id}")
     public String GetAllArticlesByCategoryId(@PathVariable Long category_id, Pageable pageable, ModelMap map) {
         List<Article> articlePage = articleService.getArticlesByCategoryId(category_id, pageable);
 
         map.addAttribute("articlePage", articlePage);
 
         return "home";
+    }*/
+
+    // TODO: 페이지네이션 세부내용 처리해야됨
+    @GetMapping("/category-selected")
+    public String WhenCategorySelected(
+            @RequestParam("select_JobGroup") String jobGroup,
+            @RequestParam("select_Position") String position,
+            @PageableDefault(size = 9) Pageable pageable,
+            ModelMap map
+    ) {
+        Long category_id = Long.parseLong(position);
+        try {
+            List<Article> articlePage = articleService.getArticlesByCategoryId(category_id);
+            System.out.println("articlePage = " + articlePage);
+
+            map.addAttribute("articlePage", articlePage);
+        }catch (Exception e) {
+            System.out.println("아무코토"); // TODO: 나중에 지우셈
+        }
+
+        return "home";
     }
 
     @GetMapping("/search")
-    public void SearchArticles(
+    public String SearchArticles(
             @RequestParam("type") String type,
             @RequestParam("keyword") String keyword,
-            Model model
+            @PageableDefault(size = 9) Pageable pageable,
+            ModelMap map
     ) {
         switch (type){
             case "title":
-                model.addAllAttributes(articleService.searchArticlesByTitle(keyword));
+                map.addAttribute("articlePage", articleService.searchArticlesByTitle(keyword, pageable));
+                break;
             case "enterprise":
-                model.addAllAttributes(articleService.searchArticlesByEnterprise(keyword));
+                map.addAttribute("articlePage",articleService.searchArticlesByEnterprise(keyword, pageable));
+                break;
         }
-    }
 
+        return "home";
+    }
 }
