@@ -21,3 +21,10 @@ spring:
         show_sql: true
     hibernate:
       ddl-auto: create
+
+#Live Reload 기능 활성화
+  devtools:livereload:enabled: true
+  resources:static-locations: file:src/main/resources/static/
+  thymeleaf:
+    cache: false
+    prefix: file:src/main/resources/templates/
