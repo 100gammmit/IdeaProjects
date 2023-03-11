@@ -31,7 +31,7 @@ class ArticleServiceTest {
                 .title("제목")
                 .enterprise("기업")
                 .locate("위치")
-                .reward(100)
+                .reward("100")
                 .build();
         articleRepository.save(dto.toEntity());
 
