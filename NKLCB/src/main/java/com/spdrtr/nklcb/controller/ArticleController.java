@@ -64,7 +64,6 @@ public class ArticleController {
         Long category_id = Long.parseLong(position);
         try {
             List<Article> articlePage = articleService.getArticlesByCategoryId(category_id);
-            System.out.println("articlePage = " + articlePage);
 
             map.addAttribute("articlePage", articlePage);
         }catch (Exception e) {
