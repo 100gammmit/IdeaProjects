@@ -1,7 +1,6 @@
 package com.spdrtr.nklcb.dto;
 
 import com.spdrtr.nklcb.domain.Article;
-import com.spdrtr.nklcb.domain.Category;
 import lombok.Builder;
 
 import java.io.Serializable;
@@ -37,5 +36,18 @@ public record ArticleDto(long id, String originalId, String title, String enterp
                 .official_url(official_url)
                 .build();
         return article;
+    }
+
+    public static ArticleDto toArticleDto(Article article){
+        ArticleDto dto = ArticleDto.builder()
+                .originalId(article.getOriginalId())
+                .title(article.getTitle())
+                .enterprise(article.getEnterprise())
+                .locate(article.getLocate())
+                .reward(article.getReward())
+                .image_url(article.getImage_url())
+                .official_url(article.getOfficial_url())
+                .build();
+        return dto;
     }
 }
