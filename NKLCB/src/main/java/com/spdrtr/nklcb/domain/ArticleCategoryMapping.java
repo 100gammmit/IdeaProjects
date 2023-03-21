@@ -1,6 +1,5 @@
 package com.spdrtr.nklcb.domain;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,5 +16,15 @@ public class ArticleCategoryMapping {
     public void takeCategory(Category category){
         this.category = category;
         category.getArticleCategoryMappings().add(this);
+    }
+
+    public ArticleCategoryMapping() {}
+    private ArticleCategoryMapping(Article article, Category category) {
+        this.article = article;
+        this.category = category;
+    }
+
+    public static ArticleCategoryMapping of(Article article, Category category) {
+        return new ArticleCategoryMapping(article, category);
     }
 }
