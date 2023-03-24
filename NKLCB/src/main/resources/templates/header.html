@@ -28,6 +28,12 @@
             </a>
             <form class="col-12 col-lg-auto mb-3 mb-lg-0 row g-auto" role="search" action="http://localhost:8484/articles/search">
                 <div class="col-lg-auto col-md-6 col-sm-3 p-0">
+                    <select th:name="type" class="col-sm-1 form-select-lg" aria-label=".form-select-lg example" style="width: auto; margin-right: 10px;" >
+                        <option selected value="title">제목</option>
+                        <option value="enterprise">기업</option>
+                    </select>
+                </div>
+                <div class="col-lg-auto col-md-6 col-sm-3 p-0">
                     <label for="search" hidden>검색어</label>
                     <input type="text" placeholder="검색어..." class="form-control" id="search" name="keyword">
                 </div>
