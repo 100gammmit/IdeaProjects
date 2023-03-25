@@ -46,7 +46,7 @@
   <nav aria-label="Page navigation example">
     <ul class="pagination" style="justify-content: center">
       <th:block th:each="page:${#numbers.sequence(startPage,endPage)}">
-        <li class="page-item"><a class="page-link" a th:if="${page > 0}" th:href="@{http://localhost:8484/articles/category-selected(page=${page - 1}, select_JobGroup=${jobGroup}, select_Position=${position})}" th:text ="${page}"></a></li>
+        <li class="page-item"><a class="page-link" a th:if="${page > 0}" th:href="@{http://localhost:8484/articles/search(page=${page - 1}, type=${type}, keyword=${keyword})}" th:text ="${page}"></a></li>
       </th:block>
     </ul>
   </nav>
