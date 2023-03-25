@@ -20,6 +20,7 @@ import java.util.*;
 import static com.spdrtr.nklcb.service.Crawling.*;
 
 @Service
+@Transactional
 public class ArticleService {
     private final ArticleRepository articleRepository;
     private final CategoryRepository categoryRepository;
@@ -33,7 +34,6 @@ public class ArticleService {
         this.articleCategoryMappingRepository = articleCategoryMappingRepository;
     }
 
-    @Transactional
     public void crawlArticleWithCategory() throws InterruptedException {
         String url = "https://www.wanted.co.kr/wdlist?country=kr&job_sort=company.response_rate_order&years=-1&locations=all";
         process(url);
