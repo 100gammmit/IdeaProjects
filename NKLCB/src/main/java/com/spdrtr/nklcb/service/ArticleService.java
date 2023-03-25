@@ -11,7 +11,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +20,6 @@ import java.util.*;
 import static com.spdrtr.nklcb.service.Crawling.*;
 
 @Service
-@Transactional
 public class ArticleService {
     private final ArticleRepository articleRepository;
     private final CategoryRepository categoryRepository;
@@ -35,6 +33,7 @@ public class ArticleService {
         this.articleCategoryMappingRepository = articleCategoryMappingRepository;
     }
 
+    @Transactional
     public void crawlArticleWithCategory() throws InterruptedException {
         String url = "https://www.wanted.co.kr/wdlist?country=kr&job_sort=company.response_rate_order&years=-1&locations=all";
         process(url);
@@ -145,12 +144,20 @@ public class ArticleService {
     }
 
     /**
+     * main home에서 8개의 랜덤한 article데이터를 출력하기 위한 매서드
+     * @return List<Article>
+     */
+    public List<Article> getArticlesInMain() {
+        return articleRepository.findArticlesInMain();
+    }
+
+    /**
      * List타입을 파라미터로 받고
      * Controller에서 JSON타입으로 데이터 전달을 하기 위해 타입 반환
      * @param allArticle
      * @return {name : data}
      */
-    public List<Map<String, Object>> getAllArticleDBByArticleList(List<Article> allArticle) {
+    /*public List<Map<String, Object>> getAllArticleDBByArticleList(List<Article> allArticle) {
         List<Map<String, Object>> allArticlesDB = new ArrayList<>();
         for(int i=0; i < allArticle.size(); i++){
             Map<String, Object> articleDB = new HashMap<>();
@@ -165,18 +172,16 @@ public class ArticleService {
             allArticlesDB.add(articleDB);
         }
         return allArticlesDB;
-    }
+    }*/
 
     /**
      * categoryId를 받아 해당하는 카테고리를 가진 모든 article을 반환
      * @param categoryId
      * @return {name : data}
      */
-    public List<Article> getArticlesByCategoryId(Long categoryId) {
-        List<Article> allArticle = new ArrayList<>();
-        for(ArticleCategoryMapping articleCategoryMapping : articleCategoryMappingRepository.findAllByCategoryId(categoryId)){
-            allArticle.add(articleCategoryMapping.getArticle());
-        }
+    public Page<Article> getArticlesByCategoryId(Long categoryId, Pageable pageable) {
+        Page<Article> allArticle = articleRepository.findArticlesByCategoryId(categoryId, pageable);
+
         return allArticle;
     }
 
