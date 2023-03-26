@@ -53,7 +53,6 @@ public class ArticleController {
         return "home";
     }*/
 
-    // TODO: 페이지네이션 세부내용 처리해야됨
     @GetMapping("/category-selected")
     public String WhenCategorySelected(
             @RequestParam("select_JobGroup") String jobGroup,
@@ -61,10 +60,8 @@ public class ArticleController {
             @PageableDefault(page = 0, size = 9, sort = "id") Pageable pageable,
             ModelMap map
     ) {
-        Long category_id = Long.parseLong(position);    // position이 String타입으로 넘어오기 때문에 id타입인 Long타입으로 파싱
-
         try {
-            Page<Article> articlePage = articleService.getArticlesByCategoryId(category_id, pageable);
+            Page<Article> articlePage = articleService.getArticlesByCategoryPosition(position, pageable);
             //페이지블럭 처리
             //1을 더해주는 이유는 pageable은 0부터라 1을 처리하려면 1을 더해서 시작해주어야 한다.
             int nowPage = articlePage.getPageable().getPageNumber() + 1;
