@@ -15,10 +15,16 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     Page<Article> findAllByTitleContaining(String keyword, Pageable pageable);
     Page<Article> findAllByEnterpriseContaining(String keyword, Pageable pageable);
     @Query(value = "select * from Article order by RAND() limit 9", nativeQuery = true)
-    List<Article> findArticlesInMain();
+    List<Article> findArticlesRand9();
 
     @Query("select ac from Article ac " +
         "left outer join ArticleCategoryMapping acm on acm.article.id = ac.id " +
             "where acm.category.id = :id")
     Page<Article> findArticlesByCategoryId(@Param("id") Long id, Pageable pageable);
+
+    @Query("select ac from Article ac " +
+            "left outer join ArticleCategoryMapping acm on acm.article.id = ac.id " +
+            "left outer join Category cg on cg.id = acm.category.id " +
+            "where cg.category_depth2 = :position")
+    Page<Article> findArticlesByCategoryPosition(@Param("position") String position, Pageable pageable);
 }
