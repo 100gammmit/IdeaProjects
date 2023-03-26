@@ -26,17 +26,17 @@
                 <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
                 <span class="fs-4">희희</span>
             </a>
-            <form class="col-12 col-lg-auto mb-3 mb-lg-0 row g-auto" role="search" action="http://localhost:8484/articles/search">
-                <div class="col-lg-auto col-md-6 col-sm-3 p-0">
-                    <select th:name="type" class="col-sm-1 form-select-lg" aria-label=".form-select-lg example" style="width: auto; margin-right: 10px;" >
-                        <option selected value="title">제목</option>
-                        <option value="enterprise">기업</option>
-                    </select>
+            <form class="col-15 col-lg-auto mb-3 mb-lg-0 row g-auto" role="search" action="http://localhost:8484/articles/search">
+                <div class="col-lg-auto col-md-3 col-sm-3 p-0">
+                    <div class="input-group mb-3">
+                        <select th:name="type" class="col-sm-1 form-select">
+                            <option selected value="title">제목</option>
+                            <option value="enterprise">기업</option>
+                        </select>
+                        <input type="text" class="form-control" th:name="keyword" placeholder="검색어...">
+                    </div>
                 </div>
-                <div class="col-lg-auto col-md-6 col-sm-3 p-0">
-                    <label for="search" hidden>검색어</label>
-                    <input type="text" placeholder="검색어..." class="form-control" id="search" name="keyword">
-                </div>
+
                 <div class="col-lg-auto col-md-3 col-sm-3 p-0">
                     <button type="submit" class="btn btn-base">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
