@@ -77,6 +77,18 @@ class JpaRepositoryTest {
         assertThat(articleRepository.findArticlesByCategoryId(2L, pageable).getTotalElements()).isEqualTo(2);
     }
 
+    @Test
+    @DisplayName("findArticlesByCategoryPosition 테스트")
+    void findArticlesByCategoryPosition() {
+        // given
+        insertData();
+        // when
+        Pageable pageable = PageRequest.of(0, 5, Sort.by(Sort.Direction.ASC, "id"));
+        // then
+        assertThat(articleRepository.findArticlesByCategoryPosition("소프트", pageable).get().findFirst().get()).isEqualTo(articleRepository.findById(1L).get());
+        assertThat(articleRepository.findArticlesByCategoryPosition("프론트", pageable).getTotalElements()).isEqualTo(2);
+    }
+
     void insertData() {
         Article article = Article.builder()
                 .title("백엔드")
