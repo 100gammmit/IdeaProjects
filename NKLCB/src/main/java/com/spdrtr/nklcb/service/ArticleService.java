@@ -148,7 +148,7 @@ public class ArticleService {
      * @return List<Article>
      */
     public List<Article> getArticlesInMain() {
-        return articleRepository.findArticlesInMain();
+        return articleRepository.findArticlesRand9();
     }
 
     /**
@@ -156,6 +156,7 @@ public class ArticleService {
      * Controller에서 JSON타입으로 데이터 전달을 하기 위해 타입 반환
      * @param allArticle
      * @return {name : data}
+     * TODO: 유기당한 증거 삭제 고려
      */
     /*public List<Map<String, Object>> getAllArticleDBByArticleList(List<Article> allArticle) {
         List<Map<String, Object>> allArticlesDB = new ArrayList<>();
@@ -178,6 +179,7 @@ public class ArticleService {
      * categoryId를 받아 해당하는 카테고리를 가진 모든 article을 반환
      * @param categoryId
      * @return {name : data}
+     * TODO: 카테고리 id가 아닌 depth2로 받아오는 방식으로 변경되었으므로 마지막에 삭제 고려
      */
     public Page<Article> getArticlesByCategoryId(Long categoryId, Pageable pageable) {
         Page<Article> allArticle = articleRepository.findArticlesByCategoryId(categoryId, pageable);
@@ -186,9 +188,20 @@ public class ArticleService {
     }
 
     /**
+     * category_position 이름을 받아 해당하는 카테고리를 가진 모든 article을 반환
+     * @param position
+     * @return Page<Article>
+     */
+    public Page<Article> getArticlesByCategoryPosition(String position, Pageable pageable) {
+        Page<Article> allArticle = articleRepository.findArticlesByCategoryPosition(position, pageable);
+
+        return allArticle;
+    }
+
+    /**
      * 제목타입 검색 결과를 반환
      * @param keyword
-     * @return {name : data}
+     * @return Page<Article>
      */
     public Page<Article> searchArticlesByTitle(String keyword, Pageable pageable) {
         Page<Article> allArticle = articleRepository.findAllByTitleContaining(keyword, pageable);
@@ -199,7 +212,7 @@ public class ArticleService {
     /**
      * 기업명타입 검색 결과를 반환
      * @param keyword
-     * @return {name : data}
+     * @return Page<Article>
      */
     public Page<Article> searchArticlesByEnterprise(String keyword, Pageable pageable) {
         Page<Article> allArticle = articleRepository.findAllByEnterpriseContaining(keyword, pageable);
