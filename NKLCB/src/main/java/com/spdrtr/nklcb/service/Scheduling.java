@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class Scheduling {
     /**
-     * 현재 시간을 "yyyy.MM.dd kk:mm:ss E요일" 형식으로 포멧하여 변환하는 매서드
+     * 현재 시간을 "yyyy.MM.dd kk:mm:ss E요일" 형식으로 포멧하여 반환하는 매서드
      * @return String(현재시간)
      */
     public static String getNowDateTime24() {
