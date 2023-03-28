@@ -12,7 +12,7 @@ public class CrawlingController {
 
     @GetMapping("/crawl")
     public String CrawlAndSave() throws InterruptedException {
-        articleService.crawlArticleWithCategory();
+        articleService.crawlAllArticleWithCategory();
         return "index";
     }
 }
