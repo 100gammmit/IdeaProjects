@@ -2,6 +2,7 @@ package com.spdrtr.nklcb.service;
 
 import com.spdrtr.nklcb.domain.Category;
 import com.spdrtr.nklcb.repository.CategoryRepository;
+import lombok.RequiredArgsConstructor;
 import org.openqa.selenium.WebElement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,12 +15,9 @@ import static com.spdrtr.nklcb.service.Crawling.*;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class CategoryService {
     private final CategoryRepository categoryRepository;
-    @Autowired
-    public CategoryService(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
-    }
 
     public void saveCategory() throws InterruptedException {
         String url = "https://www.wanted.co.kr/wdlist?country=kr&job_sort=job.popularity_order&years=-1&locations=all";
