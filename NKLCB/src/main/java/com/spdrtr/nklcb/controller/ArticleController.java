@@ -67,7 +67,7 @@ public class ArticleController {
             int nowPage = articlePage.getPageable().getPageNumber() + 1;
             //-1값이 들어가는 것을 막기 위해서 max값으로 두 개의 값을 넣고 더 큰 값을 넣어주게 된다.
             int startPage =  Math.max(nowPage - 4, 1);
-            int endPage = Math.min(nowPage+9, articlePage.getTotalPages());
+            int endPage = Math.min(nowPage+4, articlePage.getTotalPages());
 
             map.addAttribute("articlePage", articlePage);
             map.addAttribute("jobGroup", jobGroup);
@@ -100,12 +100,10 @@ public class ArticleController {
                 map.addAttribute("articlePage", articlePage);
                 break;
         }
-        //페이지블럭 처리
-        //1을 더해주는 이유는 pageable은 0부터라 1을 처리하려면 1을 더해서 시작해주어야 한다.
+
         int nowPage = articlePage.getPageable().getPageNumber() + 1;
-        //-1값이 들어가는 것을 막기 위해서 max값으로 두 개의 값을 넣고 더 큰 값을 넣어주게 된다.
         int startPage =  Math.max(nowPage - 4, 1);
-        int endPage = Math.min(nowPage+9, articlePage.getTotalPages());
+        int endPage = Math.min(nowPage+4, articlePage.getTotalPages());
 
         map.addAttribute("type", type);
         map.addAttribute("keyword", keyword);
