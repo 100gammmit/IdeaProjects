@@ -27,4 +27,10 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
             "left outer join Category cg on cg.id = acm.category.id " +
             "where cg.category_depth2 = :position")
     Page<Article> findArticlesByCategoryPosition(@Param("position") String position, Pageable pageable);
+
+    @Query("select ac from Article ac "+
+            "left outer join ArticleCategoryMapping acm on acm.article.id = ac.id " +
+            "left outer join Category cg on cg.id = acm.category.id " +
+            "where cg.category_depth1 = :jobgroup")
+    List<Article> findArticlesByJobGroup(@Param("jobgroup") String jobgroup, Pageable pageable);
 }
