@@ -6,17 +6,19 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.springframework.context.annotation.Bean;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Crawling {
-    public static WebDriver driver;
+    private static WebDriver driver;
 
     public static void process(String url) throws InterruptedException {
         System.setProperty("webdriver.chrome.driver", "/Users/minha/util/chromedriver");    // Window 운영체제에선 경로 끝에 .exe 붙이기
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");
+        // options.addArguments("headless"); // test해봐야됨
 
         driver = new ChromeDriver(options);
         driver.get(url);    //브라우저에서 url로 이동한다.
@@ -69,6 +71,10 @@ public class Crawling {
         Thread.sleep(3000);
         findElement("css-wq6t17").sendKeys("rapael4785!");  //비밀번호 입력
         findElement("css-c61xw1").click();
+
+        System.out.println("===============================");
+        System.out.println("로그인 완료");
+        System.out.println("===============================");
     }
 
     public static void scrollTo(WebElement scrollElm){
@@ -80,4 +86,5 @@ public class Crawling {
     public static void scrollTop(){
         ((JavascriptExecutor)driver).executeScript("window.scrollTo(0, 0)");
     }
+    public static void quitDriver() { driver.quit(); }
 }
