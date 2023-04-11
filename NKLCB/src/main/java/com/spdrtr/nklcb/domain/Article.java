@@ -12,16 +12,8 @@ import java.util.Set;
 
 @Getter
 @ToString
-@Table(indexes = {
-        @Index(columnList ="title"),
-        @Index(columnList ="enterprise"),
-        @Index(columnList ="locate"),
-        @Index(columnList = "reward"),
-        @Index(columnList ="image_url"),
-        @Index(columnList ="official_url")
-})
 @Entity
-public class Article {
+public class Article extends AuditingFields{
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private long id;
     @Column(nullable = false) private String originalId;
     @Column(nullable = false) private String title;
