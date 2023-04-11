@@ -8,10 +8,6 @@ import java.util.List;
 
 @Getter
 @ToString
-@Table(indexes = {
-        @Index(columnList ="category_depth1"),
-        @Index(columnList ="category_depth2")
-})
 @Entity
 public class Category {
 
