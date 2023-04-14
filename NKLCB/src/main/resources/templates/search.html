@@ -28,17 +28,20 @@
 <body>
   <header th:replace="~{header :: header}"></header>
 
-  <div class="album py-5 bg-light">
-    <div class="container">
-      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-        <table>
-          <tbody>
-          <tr th:each = "article: ${articlePage}">
-            <td th:replace="~{jobcard :: jobcard(title= ${article.title}, reward= ${article.reward}, locate= ${article.locate},
-                                enterprise= ${article.enterprise}, official_url= ${article.official_url}, image_url= ${article.image_url})}"/>
-          </tr>
-          </tbody>
-        </table>
+  <div class="container px-4 py-5" id="Search_Article">
+    <h2 class="pb-2 border-bottom" th:text="${keyword + ' 검색 결과'}">검색 결과</h2>
+    <div class="album py-5 bg-light">
+      <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+          <table>
+            <tbody>
+            <tr th:each = "article: ${articlePage}">
+              <td th:replace="~{jobcard :: jobcard(title= ${article.title}, reward= ${article.reward}, locate= ${article.locate},
+                                  enterprise= ${article.enterprise}, official_url= ${article.official_url}, image_url= ${article.image_url})}"/>
+            </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
