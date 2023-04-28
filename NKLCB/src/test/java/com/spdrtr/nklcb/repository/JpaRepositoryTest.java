@@ -3,9 +3,7 @@ package com.spdrtr.nklcb.repository;
 import com.spdrtr.nklcb.domain.Article;
 import com.spdrtr.nklcb.domain.ArticleCategoryMapping;
 import com.spdrtr.nklcb.domain.Category;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.PageRequest;
@@ -35,18 +33,19 @@ class JpaRepositoryTest {
         this.categoryRepository = categoryRepository;
     }
 
-    @AfterEach
+    @BeforeEach
     public void idRestart() {
         em.createNativeQuery("ALTER TABLE ARTICLE ALTER COLUMN ID RESTART WITH 1").executeUpdate();
         em.createNativeQuery("ALTER TABLE ARTICLE_CATEGORY_MAPPING ALTER COLUMN ID RESTART WITH 1").executeUpdate();
         em.createNativeQuery("ALTER TABLE CATEGORY ALTER COLUMN ID RESTART WITH 1").executeUpdate();
+
+        insertData();
     }
 
     @Test
     @DisplayName("게시글과 카테고리가 정상적으로 매핑되어 DB에 저장되는지 확인")
     void ArticleCategoryMappingTest() {
         //given
-        insertData();
         //when
 
         //then
@@ -59,7 +58,7 @@ class JpaRepositoryTest {
     @Test
     @DisplayName("findbyOriginalId 테스트")
     void findArticle() {
-        insertData();
+
 
         assertThat(articleRepository.findByOriginalId("12").get().getTitle()).isEqualTo("백엔드");
         assertThat(articleRepository.findByOriginalId("20")).isEmpty();
@@ -69,7 +68,7 @@ class JpaRepositoryTest {
     @DisplayName("findArticlesByCategoryId 테스트")
     void findArticlesByCategoryId() {
         // given
-        insertData();
+
         // when
         Pageable pageable = PageRequest.of(0, 5, Sort.by(Sort.Direction.ASC, "id"));
         // then
@@ -81,12 +80,25 @@ class JpaRepositoryTest {
     @DisplayName("findArticlesByCategoryPosition 테스트")
     void findArticlesByCategoryPosition() {
         // given
-        insertData();
+
         // when
         Pageable pageable = PageRequest.of(0, 5, Sort.by(Sort.Direction.ASC, "id"));
         // then
         assertThat(articleRepository.findArticlesByCategoryPosition("소프트", pageable).get().findFirst().get()).isEqualTo(articleRepository.findById(1L).get());
         assertThat(articleRepository.findArticlesByCategoryPosition("프론트", pageable).getTotalElements()).isEqualTo(2);
+    }
+
+    @Test
+    @DisplayName("updateViewCount 테스트")
+    void updateViewCount() {
+        // given
+        Article article = articleRepository.findById(1L).get();
+        int beforeCount = article.getView_count();
+        String oriId = article.getOriginalId();
+        // when
+        articleRepository.updateViewCountByOriginalId(oriId);
+        // then
+        assertThat(articleRepository.findById(1L).get().getView_count()).isEqualTo(beforeCount+1);
     }
 
     void insertData() {
