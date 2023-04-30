@@ -6,6 +6,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class CORSConfig implements WebMvcConfigurer {
+    // TODO: 유기당한 흔적 삭제 고려
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
