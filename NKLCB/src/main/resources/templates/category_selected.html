@@ -30,7 +30,22 @@
 
   <div th:replace="~{category_select :: category_select}"></div>
   <div class="container px-4 py-5" id="Category_Article">
-    <h2 class="pb-2 border-bottom" th:text="${position + ' 관련 공고'}">직무 공고</h2>
+    <div class="container d-flex flex-wrap justify-content-center">
+      <h2 class="pb-2 border-bottom" th:text="${position + ' 관련 공고 총 ' + articleCount + '개'}">직무 공고</h2>
+      <form class="col-15 col-lg-auto mb-3 mb-lg-0 row g-auto" role="search">
+        <div class="col-lg-auto col-md-3 col-sm-3 p-0" style="margin-left: 80%;">
+          <div class="input-group mb-3">
+            <select th:name="sort" class="col-sm-3 form-select-sm" aria-label=".form-select-sm example" style="width: 100px" >
+              <option selected value="recent">최신순</option>
+              <option value="popular">인기순</option>
+            </select>
+            <input type="hidden" name="select_JobGroup" th:value="${jobGroup}"/>
+            <input type="hidden" name="select_Position" th:value="${position}"/>
+            <button type="submit" class="btn btn-primary mb-auto btn-sm">정렬</button>
+          </div>
+        </div>
+      </form>
+    </div>
     <div class="album py-5 bg-light">
       <div class="container">
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
@@ -38,7 +53,7 @@
             <tbody>
             <tr th:each = "article: ${articlePage}">
               <td th:replace="~{jobcard :: jobcard(title= ${article.title}, reward= ${article.reward}, locate= ${article.locate},
-                                enterprise= ${article.enterprise}, official_url= ${article.official_url}, image_url= ${article.image_url})}"/>
+                                enterprise= ${article.enterprise}, originalId= ${article.originalId}, image_url= ${article.image_url})}"/>
             </tr>
             </tbody>
           </table>
@@ -54,7 +69,7 @@
           <span class="page-link" th:text ="${page}"></span>
         </li>
         <li th:unless="${page == nowPage}" class="page-item">
-          <a class="page-link" th:if="${page > 0}" th:href="@{http://localhost:8484/articles/category-selected(page=${page - 1}, select_JobGroup=${jobGroup}, select_Position=${position})}" th:text ="${page}"></a>
+          <a class="page-link" th:if="${page > 0}" th:href="@{http://localhost:8484/articles/category-selected(page=${page - 1}, select_JobGroup=${jobGroup}, select_Position=${position}, sort=${sort})}" th:text ="${page}"></a>
         </li>
       </th:block>
     </ul>

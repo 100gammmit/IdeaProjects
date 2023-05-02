@@ -9,6 +9,8 @@ import com.spdrtr.nklcb.repository.ArticleRepository;
 import com.spdrtr.nklcb.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.openqa.selenium.By;
+import org.openqa.selenium.ElementClickInterceptedException;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -67,8 +69,22 @@ public class ArticleService {
             scrollBottom();
             Thread.sleep(1000);
         }*/
-            Thread.sleep(1500);
-            List<WebElement> articles = findElements("Card_className__u5rsb");
+
+
+            List<WebElement> articles = new ArrayList<>();
+            while(articles.isEmpty()){
+                Thread.sleep(1500);
+                try {
+                    articles = findElements("Card_className__u5rsb");
+                } catch (NoSuchElementException nSE){
+                    System.out.println("nSE = " + nSE);
+                } catch (ElementClickInterceptedException eCIE){
+                    System.out.println("eCIE = " + eCIE);
+                } catch (Exception e) {
+                    System.out.println("e = " + e);
+                }
+            }
+
 
             for (WebElement article : articles) {
                 WebElement meta = article.findElement(By.cssSelector("a")); // job_card의 id, position, 상세 페이지 링크 등 메타 정보 수용된 코드부분
@@ -162,8 +178,18 @@ public class ArticleService {
             scrollBottom();
             Thread.sleep(1000);
         }
-            Thread.sleep(1500);
-            List<WebElement> articles = findElements("Card_className__u5rsb");
+
+            List<WebElement> articles = new ArrayList<>();
+            while(articles.isEmpty()){
+                Thread.sleep(1500);
+                try {
+                    articles = findElements("Card_className__u5rsb");
+                } catch (NoSuchElementException nSE){
+                    System.out.println("nSE = " + nSE);
+                } catch (ElementClickInterceptedException eCIE){
+                    System.out.println("eCIE = " + eCIE);
+                }
+            }
 
             for (WebElement article : articles) {
                 WebElement meta = article.findElement(By.cssSelector("a")); // job_card의 id, position, 상세 페이지 링크 등 메타 정보 수용된 코드부분
@@ -312,8 +338,6 @@ public class ArticleService {
         return allArticle;
     }
 
-
-
     @Scheduled(cron = "00 40 12 * * *")
     public void SchedulingTest() throws InterruptedException {
         System.out.println("\n");
@@ -331,5 +355,9 @@ public class ArticleService {
         System.out.println("[Ended] : " + getNowDateTime24());
         System.out.println("=======================================");
         System.out.println("\n");
+    }
+
+    public void updateViewCount(String originalId) {
+        articleRepository.updateViewCountByOriginalId(originalId);
     }
 }

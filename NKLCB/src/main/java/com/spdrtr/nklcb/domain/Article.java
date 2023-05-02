@@ -20,12 +20,13 @@ public class Article extends AuditingFields{
     @Column(nullable = false) private String enterprise;
     @Column(nullable = false) private String locate;
     @Column(nullable = false) private String reward;
+    @Column(nullable = false, columnDefinition = "integer default 0") private int view_count;
 
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
     private List<ArticleCategoryMapping> articleCategoryMappings = new ArrayList<>();
 
     @Column(length = 255) private String image_url;
-    @Column(length = 255) private String official_url;
+    @Column(length = 255) private String official_url;  // TODO: original_id만을 통해 상세 게시글 페이지로 넘어가는 방식으로 변경하였으므로, 삭제 고려
 
     @ToString.Exclude
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)

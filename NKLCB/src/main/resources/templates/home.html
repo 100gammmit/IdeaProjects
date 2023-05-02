@@ -30,7 +30,7 @@
 
     <div th:replace="~{category_select :: category_select}"></div>
     <div class="container px-4 py-5" id="Recent_Develope">
-        <h2 class="pb-2 border-bottom">최신 개발 공고</h2>
+        <h2 class="pb-2 border-bottom">인기 개발 공고</h2>
         <div class="album py-5 bg-light">
             <div class="container">
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
@@ -38,7 +38,7 @@
                         <tbody>
                             <tr th:each = "article: ${articlePage}">
                                 <td th:replace="~{jobcard :: jobcard(title= ${article.title}, reward= ${article.reward}, locate= ${article.locate},
-                                enterprise= ${article.enterprise}, official_url= ${article.official_url}, image_url= ${article.image_url})}"/>
+                                enterprise= ${article.enterprise}, originalId= ${article.originalId}, image_url= ${article.image_url})}"/>
                             </tr>
                         </tbody>
                     </table>
@@ -48,7 +48,7 @@
     </div>
 
     <div class="container px-4 py-5" id="Recent_Management">
-        <h2 class="pb-2 border-bottom">최신 경영·비즈니스 공고</h2>
+        <h2 class="pb-2 border-bottom">인기 경영·비즈니스 공고</h2>
         <div class="album py-5 bg-light">
             <div class="container">
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
@@ -56,7 +56,7 @@
                         <tbody>
                         <tr th:each = "article: ${articlePage}">
                             <td th:replace="~{jobcard :: jobcard(title= ${article.title}, reward= ${article.reward}, locate= ${article.locate},
-                                enterprise= ${article.enterprise}, official_url= ${article.official_url}, image_url= ${article.image_url})}"/>
+                                enterprise= ${article.enterprise}, originalId= ${article.originalId}, image_url= ${article.image_url})}"/>
                         </tr>
                         </tbody>
                     </table>
@@ -66,7 +66,7 @@
     </div>
 
     <div class="container px-4 py-5" id="Recent_Design">
-        <h2 class="pb-2 border-bottom">최신 디자인 공고</h2>
+        <h2 class="pb-2 border-bottom">인기 디자인 공고</h2>
         <div class="album py-5 bg-light">
             <div class="container">
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
@@ -74,7 +74,7 @@
                         <tbody>
                         <tr th:each = "article: ${articlePage}">
                             <td th:replace="~{jobcard :: jobcard(title= ${article.title}, reward= ${article.reward}, locate= ${article.locate},
-                                enterprise= ${article.enterprise}, official_url= ${article.official_url}, image_url= ${article.image_url})}"/>
+                                enterprise= ${article.enterprise}, originalId= ${article.originalId}, image_url= ${article.image_url})}"/>
                         </tr>
                         </tbody>
                     </table>
