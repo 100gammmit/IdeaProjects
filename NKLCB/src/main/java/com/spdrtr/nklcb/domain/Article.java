@@ -6,9 +6,7 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @ToString
@@ -27,11 +25,6 @@ public class Article extends AuditingFields{
 
     @Column(length = 255) private String image_url;
     @Column(length = 255) private String official_url;  // TODO: original_id만을 통해 상세 게시글 페이지로 넘어가는 방식으로 변경하였으므로, 삭제 고려
-
-    @ToString.Exclude
-    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
-    private final Set<Favorites> favorites = new LinkedHashSet<>();
-
     protected Article() {}
 
     @Builder
