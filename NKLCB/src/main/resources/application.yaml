@@ -7,19 +7,23 @@ spring:
       path: /h2-console
   sql.init.mode: always
   datasource:
-    url: jdbc:h2:~/nklcb
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
+    #url: jdbc:h2:~/nklcb
+    #driver-class-name: com.mysql.cj.jdbc.Driver
+    #username: sa
+    #password:
+    url: jdbc:mysql://localhost:3306/welcome?characterEncoding=UTF-8&serverTimezone=UTC
+    username: 100minha
+    password: rapael4785
+
 
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
+    #database-platform: org.hibernate.dialect.H2Dialect
     properties.hibernate:
-        dialect: org.hibernate.dialect.H2Dialect
+        #dialect: org.hibernate.dialect.H2Dialect
         format_sql: true
         show_sql: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
 
 #Live Reload 기능 활성화
   devtools:livereload:enabled: true
