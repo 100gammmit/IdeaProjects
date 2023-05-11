@@ -37,57 +37,73 @@ public class ArticleService {
 
     public void crawlAllArticleWithCategory() throws InterruptedException {
         String url = "https://www.wanted.co.kr/wdlist?country=kr&job_sort=company.response_rate_order&years=-1&locations=all";
+
         process(url);
         logIn();
         Thread.sleep(5000);
 
         String original_id, title, enterprise, locate, reward, image_url, official_url, category_depth1, category_depth2;
 
-        findElement("JobGroup_JobGroup__H1m1m").click();
-        List<WebElement> Big_categories = findElements("JobGroupItem_JobGroupItem__xXzAi");
-        WebElement Big_category = Big_categories.get(0);
+        findElement("JobGroup_JobGroup__H1m1m").click();    // 대분류 카테고리 목록 열기
+
+        WebElement Big_category = findElements("JobGroupItem_JobGroupItem__xXzAi").get(18);
+
+        // 대분류 카테고리 인덱스 8 이상일시 활성화
+        scrollTo(Big_category);
+        Thread.sleep(500);
+        scrollTop();
+
+
         category_depth1 = Big_category.getText();
 
-        //대분류 카테고리 버튼 클릭
-        Big_category.click();
+        Big_category.click();   //대분류 카테고리 버튼 클릭
 
-        findElement("JobCategory_JobCategory__btn__k3EFe").click();
+        findElement("JobCategory_JobCategory__btn__k3EFe").click();     // 소분류 카테고리 목록 열기
 
-        for(int i=1; i <= 3; i++){
+        int Small_category_size =  findElements("JobCategoryItem_JobCategoryItem__oUaZr").size();
+        for(int i=1; i < Small_category_size; i++) {
             List<WebElement> Small_categories =  findElements("JobCategoryItem_JobCategoryItem__oUaZr");
             WebElement Small_category = Small_categories.get(i);
             category_depth2 = Small_category.getText();
-            Small_categories.get(i-1).click();
-            Small_category.click();
-            // 소분류 카테고리 선택완료 버튼 클릭
-            findElement("Button_Button__root__V1ie3").click();
+            Small_categories.get(i-1).click();      // 이전에 크롤링한 소분류카테고리 선택 비활성화
+            Small_category.click();     // 크롤링할 소분류 카테고리 활성화
+
+            findElement("Button_Button__root__V1ie3").click();      // 소분류 카테고리 선택완료 버튼 클릭
 
             Category categoryEntity = Category.of(category_depth1, category_depth2);
             categoryRepository.save(categoryEntity);
 
-        /*for(int s=0; s < 3; s++){
-            scrollBottom();
-            Thread.sleep(1000);
-        }*/
+            for(int s=0; s < 20; s++){
+                scrollBottom();
+                Thread.sleep(1000);
+            }
 
 
             List<WebElement> articles = new ArrayList<>();
+            int reCnt = 0;
             while(articles.isEmpty()){
                 Thread.sleep(1500);
                 try {
                     articles = findElements("Card_className__u5rsb");
-                } catch (NoSuchElementException nSE){
-                    System.out.println("nSE = " + nSE);
-                } catch (ElementClickInterceptedException eCIE){
-                    System.out.println("eCIE = " + eCIE);
                 } catch (Exception e) {
                     System.out.println("e = " + e);
                 }
+                if(reCnt >= 5) break;
+                reCnt++;
             }
 
+            if(articles.isEmpty()) {
+                Thread.sleep(1000);
+                scrollTop();
+                Thread.sleep(1500);
+                findElement("JobCategory_JobCategory__btn__k3EFe").click();
+                continue;
+            }
 
+            Thread.sleep(1500);
             for (WebElement article : articles) {
                 WebElement meta = article.findElement(By.cssSelector("a")); // job_card의 id, position, 상세 페이지 링크 등 메타 정보 수용된 코드부분
+
                 original_id = meta.getAttribute("data-position-id");  // 원티드에서 관리하는 원래 게시글 id를 통해서 기존에 있던 article인지 검사하기 위하여 우선 추출
 
                 ArticleCategoryMapping articleCategoryMapping = new ArticleCategoryMapping();
@@ -105,14 +121,14 @@ public class ArticleService {
                     official_url = meta.getAttribute("href");
 
                     ArticleDto articleDto = ArticleDto.builder()
-                        .originalId(original_id)
-                        .title(title)
-                        .enterprise(enterprise)
-                        .locate(locate)
-                        .reward(reward)
-                        .image_url(image_url)
-                        .official_url(official_url)
-                        .build();
+                            .originalId(original_id)
+                            .title(title)
+                            .enterprise(enterprise)
+                            .locate(locate)
+                            .reward(reward)
+                            .image_url(image_url)
+                            .official_url(official_url)
+                            .build();
 
                     Article articleEntity = articleDto.toEntity();
                     articleRepository.save(articleEntity);
@@ -120,15 +136,15 @@ public class ArticleService {
 
                     System.out.println(
                             "\n=====================================================" +
-                            "\nINSERT ARTICLE :" +
-                            "\noriginal_id:" + original_id +
-                            "\ntitle:" + title +
-                            "\nenterprise:" + enterprise +
-                            "\nlocate:" + locate +
-                            "\nreward:" + reward +
-                            "\nimage_url:" + image_url +
-                            "\nofficial_url:" + official_url +
-                            "\n=====================================================");
+                                    "\nINSERT ARTICLE :" +
+                                    "\noriginal_id:" + original_id +
+                                    "\ntitle:" + title +
+                                    "\nenterprise:" + enterprise +
+                                    "\nlocate:" + locate +
+                                    "\nreward:" + reward +
+                                    "\nimage_url:" + image_url +
+                                    "\nofficial_url:" + official_url +
+                                    "\n=====================================================");
                 }
                 else {
                     Pre_article.get().addMappingWithCategory(articleCategoryMapping);
@@ -141,6 +157,7 @@ public class ArticleService {
             }
             Thread.sleep(1000);
             scrollTop();
+            Thread.sleep(1500);
             findElement("JobCategory_JobCategory__btn__k3EFe").click();
         }
         quitDriver();
@@ -240,7 +257,7 @@ public class ArticleService {
             }
             Thread.sleep(1000);
             scrollTop();
-            Thread.sleep(1000);
+            Thread.sleep(2000);
             findElement("JobCategory_JobCategory__btn__k3EFe").click();
         }
         quitDriver();
@@ -254,9 +271,6 @@ public class ArticleService {
      * main home에서 8개의 랜덤한 article데이터를 출력하기 위한 매서드
      * @return List<Article>
      */
-    public List<Article> getArticlesInMain() {
-        return articleRepository.findArticlesRand9();
-    }
 
     /**
      * List타입을 파라미터로 받고
